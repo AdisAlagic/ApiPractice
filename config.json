@@ -1,0 +1,9 @@
+{
+  "port": 1337,
+  "mysql": {
+    "host": "localhost",
+    "username": "root",
+    "database": "shop",
+    "password": ""
+  }
+}
