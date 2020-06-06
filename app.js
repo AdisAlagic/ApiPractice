@@ -323,12 +323,20 @@ function deleteItemFromCatalog(result, catalogId, id) {
         result.send({"error": "catalog_id or id is incorrect"});
         return;
     }
+    deleteImageFromItem(catalogId, id);
     mysql.query("DELETE FROM items WHERE catalog_id = ? AND id = ?",
         [catalogId, id],
         function (error, results) {
             errorPrint(result, error);
             result.send(JSON.stringify(results));
         })
+}
+
+function deleteImageFromItem(catalogId, id) {
+    mysql.query("SELECT * FROM items WHERE catalog_id = ? AND id = ?", [catalogId, id], function (error, results) {
+        let fs = require('fs');
+        fs.unlinkSync(__dirname + "/uploads/" + results[0].image_name);
+    })
 }
 
 function getItemFromCatalog(result, catalogId, id, url) {
