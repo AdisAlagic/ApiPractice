@@ -350,6 +350,11 @@ function getItemFromCatalog(result, catalogId, id, url) {
     mysql.query("SELECT * FROM items WHERE catalog_id = ? AND id = ?",
         [catalogId, id],
         function (error, results) {
+        if (results[0] === undefined){
+            result.status(404);
+            result.send({"error": "Not Found"});
+            return;
+        }
             results[0].image_url = url + '/image';
             result.send(JSON.stringify(results));
         })
